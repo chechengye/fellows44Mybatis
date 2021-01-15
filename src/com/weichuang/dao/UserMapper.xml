@@ -14,8 +14,26 @@
         select * from t_user
     </select>
 
-    <select id="getUserById" resultType="com.weichuang.pojo.User">
+    <select id="getUserById" resultType="User">
         select * from t_user where id = #{id}
+    </select>
+
+    <select id="getUserTotal" resultType="Integer">
+        select count(*) from t_user
+    </select>
+    <!--
+    <insert>
+    <delete>
+    <update>
+    不支持resultType属性
+    -->
+    <delete id="deleteUserById" parameterType="Integer">
+        delete from t_user where id = #{id}
+    </delete>
+
+
+    <select id="getUsersByQueryVo" resultType="User" parameterType="QueryVo">
+        select * from t_user u where u.name like "%"#{user.name}"%"
     </select>
 </mapper>
 

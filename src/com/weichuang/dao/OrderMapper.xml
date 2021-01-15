@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weichuang.dao.OrderMapper">
+
+    <!--
+        建议将所有需要获取的字段全部做匹配，不管是否名称保持一致
+    -->
+    <resultMap id="BASE_ORDER_COLUMN" type="Order">
+        <id property="id" column="id"></id>
+        <!--jdbcType="VARCHAR" javaType="String"-->
+        <result property="createTime" column="create_time" jdbcType="VARCHAR" javaType="String"></result>
+        <result property="ono" column="ono"></result>
+
+    </resultMap>
+    
+    <select id="getOrderById" resultType="Order">
+        select o.ono,o.create_time  from t_order o where id = #{id}
+    </select>
+
+    <!--
+        若输入映射是实体对象类型
+        parameterType ： 要写相应的对象的全路径
+        #{}取值的名称要与实体类的属性名称保持一致
+    -->
+    <insert id="insertOrder" parameterType="Order">
+        insert into t_order values (null , #{ono} , #{createtime} )
+    </insert>
+
+    <select id="getAllOrders" resultMap="BASE_ORDER_COLUMN">
+        select * from t_order
+    </select>
+</mapper>
+
+

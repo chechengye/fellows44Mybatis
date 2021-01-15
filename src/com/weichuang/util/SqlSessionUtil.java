@@ -21,8 +21,8 @@ public class SqlSessionUtil {
             stream = Resources.getResourceAsStream(res);
             //3、根据流对象获取SqlSessionFactory
             SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(stream);
-            //4、根据会话工厂生产一个sqlSession会话
-            sqlSession = sqlSessionFactory.openSession();
+            //4、根据会话工厂生产一个sqlSession会话 。默认为false时只能进行查询操作。需要对数据库进行修改操作的时候需要设为true。开启数据库相关处理事务
+            sqlSession = sqlSessionFactory.openSession(true);
         } catch (IOException e) {
             e.printStackTrace();
         }
