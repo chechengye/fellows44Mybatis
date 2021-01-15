@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weichuang.dao.UserMapper">
+    <!--
+        SQL标签的id必须与命名空间绑定的接口中方法保持一致
+        resultType ： 结果类型，建议全路径
+
+        #{} : 获取方法中传递的参数值 , 底层实现对象 PreparedStatement 防止SQL注入。默认加上字符串
+        ${} : 获取方法中传递的参数值 。取出的是什么值就显示什么值。order by 。关键词的拼接时使用${}
+    -->
+    <select id="getAllUser" resultType="com.weichuang.pojo.User">
+        select * from t_user
+    </select>
+
+    <select id="getUserById" resultType="com.weichuang.pojo.User">
+        select * from t_user where id = #{id}
+    </select>
+</mapper>
+
+
