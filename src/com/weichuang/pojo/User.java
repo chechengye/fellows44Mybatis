@@ -1,14 +1,17 @@
 package com.weichuang.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
 
+    private int id;
     private String name;
     private int age;
     private String username;
     private int money;
     private int sex;
+    private List<Order> orderList;
 
     //构造方法
     public User(){
@@ -69,13 +72,32 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", age=" + age +
                 ", username='" + username + '\'' +
                 ", money=" + money +
+                ", sex=" + sex +
+                ", orderList=" + orderList +
                 '}';
     }
 }

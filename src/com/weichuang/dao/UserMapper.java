@@ -25,5 +25,7 @@ public interface UserMapper {
 
     List<User> getUsersByArr(Integer[] arr);
 
+    List<User> getAllUserOneByMore();
+
     //List<User> getUsersByNameAndSex(User user);
 }

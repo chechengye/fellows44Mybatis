@@ -3,7 +3,6 @@ package com.weichuang.test;
 import com.weichuang.dao.OrderMapper;
 import com.weichuang.dao.UserMapper;
 import com.weichuang.pojo.Order;
-import com.weichuang.pojo.OrderAndUser;
 import com.weichuang.pojo.User;
 import com.weichuang.util.SqlSessionUtil;
 import com.weichuang.vo.QueryVo;
@@ -12,6 +11,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +24,7 @@ public class QuickTest {
     @Test
     public void testFn() throws IOException {
         //1、获取主配置文件的位置
-        String res = "sqlMapConfig.xml";
+        String res = "com/weichuang/mybatis/sqlMapConfig.xml";
         //2、根据主配置文件获取输入流
         InputStream stream = Resources.getResourceAsStream(res);
         //3、根据流对象获取SqlSessionFactory
@@ -156,5 +157,29 @@ public class QuickTest {
         List<Order> orderList = orderMapper.getOrders();
 
         System.out.println(orderList);
+    }
+
+    /**
+     * 查询所有用户信息及用户关联的订单信息。
+     */
+    @Test
+    public void testFn11() {
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
+        List<User> userList = userMapper.getAllUserOneByMore();
+        System.out.println(userList);
+    }
+
+    /**
+     * 测试Mybatis与Spring整合
+     */
+    @Test
+    public void testFn12(){
+        ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+        /*UserMapper userMapper = (UserMapper)ac.getBean("userMapper");*/
+        UserMapper userMapper = ac.getBean(UserMapper.class);
+        List<User> userList = userMapper.getAllUser();
+        System.out.println(userList);
     }
 }

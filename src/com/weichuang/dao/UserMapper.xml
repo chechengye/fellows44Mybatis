@@ -89,6 +89,21 @@
             </foreach>
         </where>
     </select>
+
+    <resultMap id="Base_User_Map" type="User">
+        <id property="id" column="id"></id>
+        <result property="age" column="age"></result>
+        <result property="name" column="name"></result>
+        <!--需要将想显示的属性，做好映射，因为自动映射失效-->
+        <collection property="orderList" ofType="Order">
+            <result property="ono" column="ono"></result>
+            <result property="createTime" column="create_time"></result>
+        </collection>
+    </resultMap>
+    <select id="getAllUserOneByMore" resultMap="Base_User_Map">
+        select *
+        from t_user u LEFT JOIN t_order o ON o.user_id = u.id
+    </select>
 </mapper>
 
 

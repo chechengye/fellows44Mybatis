@@ -15,7 +15,7 @@ public class SqlSessionUtil {
         SqlSession sqlSession = null;
         try {
             //1、获取主配置文件的位置
-            String res = "sqlMapConfig.xml";
+            String res = "com/weichuang/mybatis/sqlMapConfig.xml";
             //2、根据主配置文件获取输入流
             InputStream stream = null;
             stream = Resources.getResourceAsStream(res);
