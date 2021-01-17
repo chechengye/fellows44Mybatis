@@ -7,13 +7,14 @@
     <!--
         建议将所有需要获取的字段全部做匹配，不管是否名称保持一致
     -->
-    <resultMap id="BASE_ORDER_COLUMN" type="Order">
+    <resultMap id="Base_Order_Column" type="Order">
         <id property="id" column="id"></id>
         <!--jdbcType="VARCHAR" javaType="String"-->
         <result property="createTime" column="create_time" jdbcType="VARCHAR" javaType="String"></result>
         <result property="ono" column="ono"></result>
 
     </resultMap>
+
     
     <select id="getOrderById" resultType="Order">
         select o.ono,o.create_time  from t_order o where id = #{id}
@@ -28,8 +29,32 @@
         insert into t_order values (null , #{ono} , #{createtime} )
     </insert>
 
-    <select id="getAllOrders" resultMap="BASE_ORDER_COLUMN">
+    <!--resultMap : 命名。整个mapper.xml文档中不允许重复-->
+    <select id="getAllOrders" resultMap="Base_Order_Column">
         select * from t_order
+    </select>
+    <resultMap id="Base_OrderAndUser_Map" type="OrderAndUser">
+        <result property="createTime" column="create_time"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="name" column="name"></result>
+    </resultMap>
+    <select id="getAllOrderAndUser" resultMap="Base_OrderAndUser_Map">
+        select * from t_order o LEFT JOIN t_user u ON o.user_id = u.id
+    </select>
+
+    <resultMap id="Base_Order_Map" type="Order">
+        <result property="createTime" column="create_time"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="ono" column="ono"></result>
+        <!--若是使用association标签之后。resultMap中的所有属性都要自行编写，不会自动映射封装-->
+        <association property="user" javaType="User">
+            <result property="name" column="name"></result>
+            <result property="age" column="age" ></result>
+        </association>
+
+    </resultMap>
+    <select id="getOrders" resultMap="Base_Order_Map">
+        select * from t_order o LEFT JOIN t_user u ON o.user_id = u.id
     </select>
 </mapper>
 

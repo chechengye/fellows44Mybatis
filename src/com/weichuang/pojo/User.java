@@ -8,6 +8,7 @@ public class User implements Serializable {
     private int age;
     private String username;
     private int money;
+    private int sex;
 
     //构造方法
     public User(){
@@ -58,6 +59,14 @@ public class User implements Serializable {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 
     @Override

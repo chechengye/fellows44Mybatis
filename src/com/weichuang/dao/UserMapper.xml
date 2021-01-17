@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.weichuang.dao.UserMapper">
+
+    <sql id="Base_User_Column">
+        u.username,u.age,u.sex,u.name
+    </sql>
     <!--
         SQL标签的id必须与命名空间绑定的接口中方法保持一致
         resultType ： 结果类型，建议全路径
@@ -11,7 +15,7 @@
         ${} : 获取方法中传递的参数值 。取出的是什么值就显示什么值。order by 。关键词的拼接时使用${}
     -->
     <select id="getAllUser" resultType="com.weichuang.pojo.User">
-        select * from t_user
+        select username,age,sex,name from t_user
     </select>
 
     <select id="getUserById" resultType="User">
@@ -33,7 +37,57 @@
 
 
     <select id="getUsersByQueryVo" resultType="User" parameterType="QueryVo">
-        select * from t_user u where u.name like "%"#{user.name}"%"
+        select
+         <include refid="Base_User_Column"/>
+         from t_user u
+        <where>
+            <foreach collection="ids" open="id IN (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+
+    </select>
+
+    <select id="getUsersByNameAndSex" resultType="User">
+        select
+        <include refid="Base_User_Column"/>
+        from t_user u
+        <!--<where> 标签 ： 可以帮我们自动除去前and与加上where关键字 -->
+        <where>
+            <if test="name != null and name != ''">
+               and u.name like "%"#{name}"%"
+            </if>
+            <if test="sex != null">
+                and u.sex = #{sex}
+
+            </if>
+        </where>
+
+    </select>
+
+    <!-- WHERE id IN (1,4,3) -->
+    <select id="getUsersByIds" resultType="User">
+        select
+        <include refid="Base_User_Column"/>
+        from t_user u
+
+        <where>
+            <foreach collection="ids" open="id IN (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="getUsersByArr" resultType="User">
+        select
+        <include refid="Base_User_Column"/>
+        from t_user u
+
+        <where>
+            <foreach collection="array" open="id IN (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
     </select>
 </mapper>
 

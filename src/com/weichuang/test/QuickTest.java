@@ -3,6 +3,7 @@ package com.weichuang.test;
 import com.weichuang.dao.OrderMapper;
 import com.weichuang.dao.UserMapper;
 import com.weichuang.pojo.Order;
+import com.weichuang.pojo.OrderAndUser;
 import com.weichuang.pojo.User;
 import com.weichuang.util.SqlSessionUtil;
 import com.weichuang.vo.QueryVo;
@@ -14,6 +15,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuickTest {
@@ -101,6 +103,58 @@ public class QuickTest {
         SqlSession sqlSession = SqlSessionUtil.getSqlSession();
         OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
         List<Order> orderList = orderMapper.getAllOrders();
+        System.out.println(orderList);
+    }
+
+    /**
+     * 需求：根据性别和名字查询用户
+     */
+    @Test
+    public void testFn8(){
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        /*User user = new User();
+        user.setName("赵六");
+        user.setSex(2);*/
+        String name = "赵";
+        Integer sex = 1;
+        List<User> userList = userMapper.getUsersByNameAndSex(name , sex);
+        System.out.println(userList);
+    }
+
+    /**
+     * 根据IDS查询数据
+     */
+    @Test
+    public void testFn9(){
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        ids.add(4);
+        ids.add(5);
+        QueryVo vo =new QueryVo();
+        vo.setIds(ids);
+        Integer[] arr = {1,4,5};
+        //List<User> userList = userMapper.getUsersByIds(ids);
+        //List<User> userList = userMapper.getUsersByQueryVo(vo);
+        List<User> userList =  userMapper.getUsersByArr(arr);
+        System.out.println(userList);
+    }
+
+
+    /**
+     * 查询所有订单信息，关联查询下单用户信息。
+     */
+    @Test
+    public void testFn10(){
+        SqlSession sqlSession = SqlSessionUtil.getSqlSession();
+        OrderMapper orderMapper = sqlSession.getMapper(OrderMapper.class);
+        //第一种处理 一对一的解决方案 -- 推荐
+       /* List<OrderAndUser> orderAndUserList = orderMapper.getAllOrderAndUser();
+        System.out.println(orderAndUserList);*/
+        List<Order> orderList = orderMapper.getOrders();
+
         System.out.println(orderList);
     }
 }
